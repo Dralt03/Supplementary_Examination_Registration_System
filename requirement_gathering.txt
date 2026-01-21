@@ -1,0 +1,36 @@
+1. Gathered Information
+
+DBMS (Database Management System) is software used to store, manage, and retrieve data efficiently. It provides data security, integrity, and easy access to data.
+
+2. Required Software
+
+The required software for DBMS lab includes:
+
+MySQL Server
+
+MySQL Workbench
+
+Operating System (Windows/Linux)
+
+All required software has been installed successfully.
+
+3. Schema for Supplementary Examination Registration System
+
+The schema defines the structure of the database.
+The Supplementary Examination Registration System includes tables such as:
+
+Student
+
+Subject
+
+Examination
+
+Registration
+
+These tables are used to manage student details, subjects, exam information, and registration data.
+
+4. Conclusion
+
+The required information was gathered, software was installed, and the schema was studied.
+
+Eraser Link for reference : https://app.eraser.io/workspace/bYhivTQm30W3cMwpE12n

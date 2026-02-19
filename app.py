@@ -42,6 +42,7 @@ def index():
     return render_template("index.html")
 
 
+
 @app.route("/api/add-student", methods=["POST"])
 def add_student():
     data = request.get_json()

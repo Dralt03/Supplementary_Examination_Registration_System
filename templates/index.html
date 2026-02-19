@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Supplementary Examination Registration</title>
+    <link rel="stylesheet" href="/static/style.css" />
+</head>
+<body>
+    <main class="container">
+        <h1>Supplementary Examination Registration System</h1>
+
+        <section class="card">
+            <h2>Add Student</h2>
+            <form data-endpoint="/api/add-student">
+                <input type="number" name="roll_no" placeholder="Roll No" required />
+                <input type="text" name="name" placeholder="Student Name" required />
+                <input type="text" name="branch" placeholder="Branch" required />
+                <input type="text" name="semester" placeholder="Semester" required />
+                <input type="email" name="email" placeholder="Email" required />
+                <button type="submit">Submit</button>
+            </form>
+        </section>
+
+        <section class="card">
+            <h2>Add Course</h2>
+            <form data-endpoint="/api/add-course">
+                <input type="text" name="course_code" placeholder="Course Code" required />
+                <input type="text" name="course_name" placeholder="Course Name" required />
+                <input type="text" name="department" placeholder="Department" required />
+                <input type="text" name="credits" placeholder="Credits" required />
+                <button type="submit">Submit</button>
+            </form>
+        </section>
+
+        <section class="card">
+            <h2>Add Grade</h2>
+            <form data-endpoint="/api/add-grade">
+                <input type="number" name="roll_no" placeholder="Roll No" required />
+                <input type="text" name="course_code" placeholder="Course Code" required />
+                <input type="text" name="department" placeholder="Department" required />
+                <input type="text" name="credits" placeholder="Credits" required />
+                <input type="text" name="grade" placeholder="Grade (e.g., F)" required />
+                <button type="submit">Submit</button>
+            </form>
+        </section>
+
+        <section class="card">
+            <h2>Add Payment</h2>
+            <form data-endpoint="/api/add-payment">
+                <input type="number" name="transaction_no" placeholder="Transaction No" required />
+                <input type="number" name="roll_no" placeholder="Roll No" required />
+                <input type="text" name="course_code" placeholder="Course Code" required />
+                <input type="number" name="amount" placeholder="Amount" required />
+                <input type="date" name="payment_date" title="Payment Date" required />
+                <input type="text" name="payment_status" placeholder="SUCCESS / FAILED" required />
+                <button type="submit">Submit</button>
+            </form>
+        </section>
+
+        <section class="card">
+            <h2>Register Supplementary</h2>
+            <form data-endpoint="/api/register-supplementary">
+                <input type="number" name="supplementary_id" placeholder="Supplementary ID" required />
+                <input type="number" name="roll_no" placeholder="Roll No" required />
+                <input type="number" name="transaction_no" placeholder="Transaction No" required />
+                <input type="text" name="course_code" placeholder="Course Code" required />
+                <input type="date" name="registration_date" title="Registration Date" required />
+                <button type="submit">Submit</button>
+            </form>
+        </section>
+
+        <section class="card">
+            <h2>Response</h2>
+            <pre id="response">No request sent yet.</pre>
+        </section>
+    </main>
+
+    <script>
+        const forms = document.querySelectorAll('form[data-endpoint]');
+        const output = document.getElementById('response');
+
+        forms.forEach((form) => {
+            form.addEventListener('submit', async (event) => {
+                event.preventDefault();
+                const endpoint = form.dataset.endpoint;
+                const formData = new FormData(form);
+                const payload = Object.fromEntries(formData.entries());
+
+                for (const key of Object.keys(payload)) {
+                    const value = payload[key];
+                    if (value !== '' && !Number.isNaN(Number(value)) && form.querySelector(`[name="${key}"]`).type === 'number') {
+                        payload[key] = Number(value);
+                    }
+                }
+
+                output.textContent = 'Sending request...';
+
+                try {
+                    const response = await fetch(endpoint, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+
+                    const data = await response.json();
+                    output.textContent = JSON.stringify(data, null, 2);
+                } catch (error) {
+                    output.textContent = JSON.stringify({ success: false, message: error.message }, null, 2);
+                }
+            });
+        });
+    </script>
+</body>
+</html>
